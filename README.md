@@ -1,59 +1,32 @@
 # opencv
-### opencv BGA 변환
-```
-import cv2
-import numpy as np
 
-#기본값
-img = cv2.imread('../img/like_lenna.png')
-#bgr
-bgr = cv2.imread('../img/like_lenna.png', cv2.IMREAD_COLOR)
-# a
-bgra = cv2.imread('../img/like_lenna.png', cv2.IMREAD_UNCHANGED)
+## 📂 주요 실습 파일 요약 + 핵심 구문
 
-# shape
-print("default", img.shape, "color", bgr.shape, "unchanged", bgra.shape)
+| 파일명 | 주요 내용 | 핵심 함수 / 구문 |
+|--------|-----------|------------------|
+| **bgr2gray.py** | 컬러 이미지를 Grayscale로 변환 | `cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)`<br>`cv2.split()` + 평균 |
+| **bgr2yuv.py** | BGR → YUV 변환, Y(밝기) 채널 추출 | `cv2.cvtColor(img, cv2.COLOR_BGR2YUV)` |
+| **color.py** | 다양한 색공간 실습 (HSV, LAB 등) | `cv2.cvtColor(img, cv2.COLOR_BGR2HSV)` |
+| **chromakey.py** | 초록 배경 제거 (크로마키 기법) | `cv2.inRange()`<br>`cv2.bitwise_and()` |
+| **cropped.jpg** | ROI 실습용 잘라낸 이미지 (이미지 파일) | - |
+| **histo.py** | Grayscale 히스토그램 분석 | `cv2.calcHist([gray], [0], None, [256], [0, 256])`<br>`matplotlib.pyplot.plot()` |
+| **histo_rgb.py** | RGB 각 채널별 히스토그램 | `cv2.split(img)`<br>채널별 `calcHist()` |
+| **histo_gray.py** | 그레이스케일 히스토그램 시각화 | `cv2.cvtColor()` + `calcHist()` |
+| **histo_equalize.py** | 히스토그램 평활화 (대비 향상) | `cv2.equalizeHist(gray)` |
+| **histo_normalize.py** | 픽셀 값 정규화 (0~255 범위로) | `cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX)` |
+| **masking.py** | 특정 영역만 추출 (마스킹) | `cv2.inRange()`<br>`cv2.bitwise_and()` |
+| **threshold.py** | 임계값 기반 이진화 | `cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)` |
 
-cv2.imshow('img', img)
-cv2.imshow('bgr', bgr)
-cv2.imshow('alpha', bgra[:,:,3])
+---
 
-cv2.waitKey(0)
-cv2.destroyAllWindows
-```
-- like_lenna.png를 가져와서 알파값으로 변환시키기
-- 위 코드를 기반해서 여러가지로 활용가능 ex)RGB를 그레이 스케일로 변경, RGB값을 YUV로 변환 등
+## 📝 추가 설명 (내가 이해한 내용 정리)
 
-### BGR을 그레이 스케일로 변환
-import cv2
-import numpy as np
+첫번째로 복잡하게 풀어서 쓰는 방법이 있다. 예를 들어, b, g, r 값을 int 타입으로 바꾼 다음에 각각 분리해서 평균을 구하고, 다시 uint8로 변환하는 식이다.  
+근데 이렇게 쓰면 코드도 길고 보기 어렵다. 그래서 OpenCV에서 제공하는 `cv2.cvtColor()` 함수를 쓰면 훨씬 간단하게 처리할 수 있다.
 
-img = cv2.imread('../img/like_lenna.png')
+그리고 색공간은 그냥 RGB만 있는 게 아니라 YUV, HSV 등 다양하다. 상황에 따라서 더 유리한 색공간을 쓰는 게 좋다. 예를 들어 크로마키처럼 특정 색을 제거할 때는 HSV 색공간이 더 편하다.
+
+히스토그램은 밝기 분포를 보거나 대비를 조절할 때 유용하게 쓸 수 있다. `equalizeHist()`나 `normalize()` 같은 함수로 이미지 분위기를 확 바꿀 수 있다.
 
 
-# 복잡한 방법
-img2 = img.astype(np.uint16)
-b, g, r = cv2.split(img2) # 채널별로 분류
 
-gray1 = ((b + g + r) / 3).astype(np.uint8) #평균값을 연산 후 dtype으로 변경
-
-# 함수 사용하는 방법
-```
-img = cv2.imread('../img/like_lenna.png')
-
-# 복잡한 방법
-img2 = img.astype(np.uint16)
-b, g, r = cv2.split(img2) # 채널별로 분류
-gray1 = ((b + g + r) / 3).astype(np.uint8) #평균값을 연산 후 dtype으로 변경
-
-# 함수 사용하는 방법
-gray2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # BGR을 그레이스케일로 변경
-
-cv2.imshow('original', img)
-cv2.imshow('gray1', gray1)
-cv2.imshow('gray2', gray2)
-```
-- 첫번째로 복잡하게 풀어서 쓰는 방법이 있다. 먼저 b,g,r값을 int값으로 만든 후 채널별로 분류하고 평균값을 통해 dtype으로 변경시키는 방법이다.
-- 위 구문은 너무 길어서 opencv에 포함된 cv2.cvtColor() 함수를 이용하면 훨씬 간편하다.
-
-- 
