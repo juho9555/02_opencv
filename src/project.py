@@ -6,7 +6,7 @@ bg = cv2.imread('../img/NewsDesk.jpg')  # 배경
 cat = cv2.imread('../img/StandingCat.jpg')  # 고양이
 
 
-# 2. 고양이 이미지 비율 유지하며 리사이즈 (예: 너비 120 기준)
+# 2. 고양이 이미지 비율 유지하며 리사이즈
 target_width = 200
 scale_ratio = target_width / cat.shape[1]
 target_height = int(cat.shape[0] * scale_ratio)
