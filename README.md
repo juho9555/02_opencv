@@ -6,9 +6,7 @@
 |--------|-----------|------------------|
 | **bgr2gray.py** | 컬러 이미지를 Grayscale로 변환 | `cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)`<br>`cv2.split()` + 평균 |
 | **bgr2yuv.py** | BGR → YUV 변환, Y(밝기) 채널 추출 | `cv2.cvtColor(img, cv2.COLOR_BGR2YUV)` |
-| **color.py** | 다양한 색공간 실습 (HSV, LAB 등) | `cv2.cvtColor(img, cv2.COLOR_BGR2HSV)` |
 | **chromakey.py** | 초록 배경 제거 (크로마키 기법) | `cv2.inRange()`<br>`cv2.bitwise_and()` |
-| **cropped.jpg** | ROI 실습용 잘라낸 이미지 (이미지 파일) | - |
 | **histo.py** | Grayscale 히스토그램 분석 | `cv2.calcHist([gray], [0], None, [256], [0, 256])`<br>`matplotlib.pyplot.plot()` |
 | **histo_rgb.py** | RGB 각 채널별 히스토그램 | `cv2.split(img)`<br>채널별 `calcHist()` |
 | **histo_gray.py** | 그레이스케일 히스토그램 시각화 | `cv2.cvtColor()` + `calcHist()` |
